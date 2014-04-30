@@ -1,4 +1,7 @@
 <?php
+interface Omschrijving{
+    public function getOmschrijving();
+}
 abstract class Rekening {
 
     private $rekeningnr;
@@ -17,11 +20,19 @@ abstract class Rekening {
         $this->saldo = $this->saldo +($this->saldo*static::$interest);
     }
 }
-class SpaarRekening extends Rekening{
+class SpaarRekening extends Rekening implements Omschrijving{
     static protected $interest =0.03;
+    public function getOmschrijving() {
+        $Omschrijving="Langetermijnrekening";
+        return $Omschrijving;
+    }
 }
-class ZichtRekening extends Rekening{
+class ZichtRekening extends Rekening implements Omschrijving{
     static protected $interest =0.025;
+    public function getOmschrijving() {
+        $Omschrijving="Kortetermijnrekening";
+        return $Omschrijving;
+    }
 }
 ?>
 <!DOCTYPE HTML>
@@ -34,6 +45,7 @@ class ZichtRekening extends Rekening{
         <h1>
             <?php
             $rek= new SpaarRekening("091-0122401-16");
+            print $rek->getOmschrijving()."<br>";
             print ("Het saldo is: ".$rek->getSaldo() ."<br>");
             $rek->stort(200);
             print ("Het saldo is: ".$rek->getSaldo() ."<br>");
@@ -41,6 +53,7 @@ class ZichtRekening extends Rekening{
             print ("Het saldo is: ".$rek->getSaldo() ."<br>");
             print '<p>&nbsp</p>';
             $zichtrek= new ZichtRekening("953-0395750-56");
+            print $zichtrek->getOmschrijving()."<br>";
             print ("Het saldo van uw zichtrekening is: ".$zichtrek->getSaldo() ."<br>");
             $zichtrek->stort(200);
             print ("Het saldo van uw zichtrekening is: ".$zichtrek->getSaldo() ."<br>");
